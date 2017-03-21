@@ -1,12 +1,14 @@
 # coding=utf-8
 import random
 
+
 def bubble_sort(L):
     for i in range(len(L)):
         for j in range(len(L)-1-i):
             if L[j] > L[j+1]:
                 swap(L, j, j+1)
     return L
+
 
 # 排序并去重
 def quick_sort1(L):
@@ -17,10 +19,12 @@ def quick_sort1(L):
     big = [i for i in L if i > m]
     return quick_sort1(small) + [m] + quick_sort1(big)
 
+
 def swap(l, i, j):
     temp = l[i]
     l[i] = l[j]
     l[j] = temp
+
 
 def quick_sort4(L, left, right):
     if left >= right:
@@ -45,6 +49,29 @@ def quick_sort4(L, left, right):
     quick_sort4(L, left, low-1)
     quick_sort4(L, low+1, right)
 
+
+# 归并排序，将一个数组均分到最小单位1个，然后分别两两合并排序
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    middle = len(arr)/2
+    return merge_sort_two(merge_sort(arr[:middle]), merge_sort(arr[middle:]))
+
+
+def merge_sort_two(l1, l2):
+    sorted_arr = []
+    while len(l1) > 0 and len(l2) > 0:
+        if l1[0] > l2[0]:
+            sorted_arr.append(l2.pop(0))
+        else:
+            sorted_arr.append(l1.pop(0))
+    if len(l2) == 0:
+        sorted_arr.extend(l1)
+    else:
+        sorted_arr.extend(l2)
+    return sorted_arr
+
+
 # 树遍历
 # 构建一个树
 class Tree(object):
@@ -52,6 +79,7 @@ class Tree(object):
         self.data = data
         self.left = left
         self.right = right
+
 
 # 遍历
 class TreeOrder(object):
@@ -97,6 +125,7 @@ def shiftup(i节点）：
 堆排序：交换顶点<->最后节点；保存最后节点数值；删除此堆最后节点
 '''
 
+
 def shiftdown(h, i, end=None):
     if not end:
         n = len(h) - 1
@@ -116,10 +145,12 @@ def shiftdown(h, i, end=None):
         else:  # 没有子节点，或者自己是最小的，不用调整了
             flag = 1
 
+
 def create(h):  # 从非叶节点层开始向前调整
     n = len(h)
     for i in range(n//2 -1, -1, -1):
         shiftdown(h, i)
+
 
 def delmin(h, end):
     t = h[0]
@@ -127,6 +158,7 @@ def delmin(h, end):
     end = end - 1
     shiftdown(h, 0, end)
     return t
+
 
 # 从小到达排序，每次取堆的顶点，然后交换顶点最后点，调整
 def sort_h(L):
@@ -145,9 +177,27 @@ if __name__ == '__main__':
     # t3 = Tree(90, t1, t2)
     # ot = TreeOrder()
     # ot.preorder(t3)
-    create(L)
-    print L
-    sort_h(L)
+    # create(L)
+    # print L
+    # sort_h(L)
+    def getNum(num, data=None):
+        while data:
+            if num > data[0][-1]:
+                del data[0]
+               # print(data)
+                getNum(num, data)
+            elif num < data[0][-1]:
+                data = list(zip(*data))
+                del data[-1]
+                data = list(zip(*data))
+               # print(data)
+                getNum(num, data)
+            else:
+                return True
+        return False
+    arr = [[1,4,7,10,15], [2,5,8,12,19], [3,6,9,16,22], [10,13,14,17,24], [18,21,23,26,30]]
+    #print getNum(18, arr)
+    print merge_sort(L)
 
 
 
