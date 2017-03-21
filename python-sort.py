@@ -166,6 +166,24 @@ def sort_h(L):
     for end in range(n, 0, -1):
         print delmin(L, end),
 
+arr = [[1, 4, 7, 10, 15], [2, 5, 8, 12, 19], [3, 6, 9, 16, 22], [10, 13, 14, 17, 24], [18, 21, 23, 26, 30]]
+
+
+# 二维列表，行和列均递增，查找一个数
+def getNum(num, data=None):
+    while data:
+        if num > data[0][-1]:
+            del data[0]
+            getNum(num, data)
+        elif num < data[0][-1]:
+            data = list(zip(*data))
+            del data[-1]
+            data = list(zip(*data))
+            getNum(num, data)
+        else:
+            return True
+    return False
+
 
 if __name__ == '__main__':
     L = [random.randint(0, 100) for i in range(12)]
@@ -180,22 +198,6 @@ if __name__ == '__main__':
     # create(L)
     # print L
     # sort_h(L)
-    def getNum(num, data=None):
-        while data:
-            if num > data[0][-1]:
-                del data[0]
-               # print(data)
-                getNum(num, data)
-            elif num < data[0][-1]:
-                data = list(zip(*data))
-                del data[-1]
-                data = list(zip(*data))
-               # print(data)
-                getNum(num, data)
-            else:
-                return True
-        return False
-    arr = [[1,4,7,10,15], [2,5,8,12,19], [3,6,9,16,22], [10,13,14,17,24], [18,21,23,26,30]]
     #print getNum(18, arr)
     print merge_sort(L)
 
